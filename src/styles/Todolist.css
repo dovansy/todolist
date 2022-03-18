@@ -7,10 +7,8 @@
 }
 
 .todo-list-header {
-  text-align: center;
-}
-
-.todo-list-header-content {
+  display: flex;
+  justify-content: center;
   font-size: 16px;
   font-weight: 500;
 }
@@ -30,4 +28,31 @@
 /* todo list */
 .todo-list {
   width: 60%;
+}
+
+/* btn add */
+.btn-add {
+  width: 100%;
+  justify-content: center;
+}
+
+/* to do item */
+.to-do-item {
+  border: 1px solid #cdcdcd;
+  border-radius: 5px;
+}
+
+.btn-action {
+  width: 100px;
+}
+
+.to-do-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-side-left {
+  display: flex;
+  align-items: center;
 }
