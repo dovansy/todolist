@@ -73,4 +73,14 @@
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid #cdcdcd;
+  animation: showIn 1s ease-in-out;
+}
+
+@keyframes showIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
