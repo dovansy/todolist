@@ -5,7 +5,12 @@ import ToDoList from "./ToDoList";
 function DashboardTodo() {
   return (
     <div className="content">
-      <AddTodo />
+      <div className="add-todo">
+        <div>
+          <span className="todo-list-header">New task</span>
+          <AddTodo />
+        </div>
+      </div>
       <ToDoList />
     </div>
   );
