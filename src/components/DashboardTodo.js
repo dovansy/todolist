@@ -8,6 +8,7 @@ function DashboardTodo() {
     const dataItemTask = JSON.parse(localStorage.getItem("task"));
     return dataItemTask ?? [];
   });
+
   const [task, setTask] = useState({
     id: Math.floor(Date.now() / 1000),
     title: "",
@@ -30,13 +31,9 @@ function DashboardTodo() {
     }));
   };
 
-  const handleUpdateItem = (value, fieldName, item) => {
+  const handleUpdateItem = (value, fieldName, index) => {
     let newListTask = [...listTask];
-    newListTask.forEach((ele, index) => {
-      if (ele.id === item.id) {
-        listTask[index].title = value;
-      }
-    });
+    newListTask[index][fieldName] = value;
     return setListTask(newListTask);
   };
 
@@ -56,6 +53,15 @@ function DashboardTodo() {
     });
   };
 
+  const updateItem = (id) => {
+    setListTask(() => {
+      const newTask = [...listTask];
+      const jsonTask = JSON.stringify(newTask);
+      localStorage.setItem("task", jsonTask);
+      return newTask;
+    });
+  };
+
   const showDetail = (id) => {
     let newListTask = [...listTask];
     newListTask.forEach((item, index) => {
@@ -69,7 +75,7 @@ function DashboardTodo() {
 
   const submitDoneTask = (checked) => {
     let newListTask = [];
-    listTask.forEach((item, index) => {
+    listTask.forEach((item) => {
       if (checked.includes(item.id) === false) {
         newListTask.push(item);
       }
@@ -86,7 +92,7 @@ function DashboardTodo() {
           <AddTodo task={task} handleUpdate={handleUpdate} submitForm={submitForm} form="add" />
         </div>
       </div>
-      <ToDoList listTask={listTask} handleUpdateInput={handleUpdateItem} removeTask={removeTask} submitDoneTask={(value) => submitDoneTask(value)} showDetail={(value) => showDetail(value)} />
+      <ToDoList listTask={listTask} handleUpdateInput={handleUpdateItem} removeTask={removeTask} submitDoneTask={(value) => submitDoneTask(value)} updateItem={updateItem} showDetail={(value) => showDetail(value)} />
     </div>
   );
 }

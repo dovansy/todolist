@@ -2,10 +2,13 @@ import { memo, useEffect, useState } from "react";
 import "../styles/Todolist.css";
 import AddTodo from "./AddTodo";
 
-function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, showDetail }) {
+function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, showDetail, updateItem }) {
   const [checked, setChecked] = useState([]);
+
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+
+  const [searchResults, setSearchResults] = useState(listTask);
+
   const handleCheck = (id) => {
     setChecked((item) => {
       const isChecked = checked.includes(id);
@@ -20,7 +23,7 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
   useEffect(() => {
     const results = listTask.filter((item) => item.title.toLowerCase().includes(search.toLocaleLowerCase()));
     setSearchResults(results);
-  }, [search]);
+  }, [search, listTask]);
 
   const handleChangeSearch = (event) => {
     setSearch(event.target.value);
@@ -70,7 +73,7 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
               </div>
               {item.show && (
                 <div className="detail-to-do m-0">
-                  <AddTodo task={item} handleUpdateItem={handleUpdateInput} form="update" />
+                  <AddTodo task={item} handleUpdateItem={handleUpdateInput} form="update" index={index} updateItem={updateItem} />
                 </div>
               )}
             </div>
