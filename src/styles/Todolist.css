@@ -76,6 +76,15 @@
   animation: showIn 1s ease-in-out;
 }
 
+.form-check-label {
+  word-break: break-all;
+}
+
+.item-side-right {
+  display: flex;
+  align-items: center;
+}
+
 @keyframes showIn {
   from {
     opacity: 0;

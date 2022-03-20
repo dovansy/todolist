@@ -1,10 +1,11 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import "../styles/Todolist.css";
 import AddTodo from "./AddTodo";
 
 function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, showDetail }) {
   const [checked, setChecked] = useState([]);
-
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const handleCheck = (id) => {
     setChecked((item) => {
       const isChecked = checked.includes(id);
@@ -14,6 +15,20 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
         return [...item, id];
       }
     });
+  };
+
+  useEffect(() => {
+    const results = listTask.filter((item) => item.title.toLowerCase().includes(search.toLocaleLowerCase()));
+    setSearchResults(results);
+  }, [search]);
+
+  const handleChangeSearch = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const removeChecked = (id) => {
+    const newChecked = checked.filter((item) => item !== id);
+    setChecked(newChecked);
   };
 
   const unChecked = () => {
@@ -26,20 +41,28 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
         <span className="todo-list-header">To Do List</span>
         <div className="add-todo-content my-3">
           <span>Search</span>
-          <input className="form-control" placeholder="Search..." />
-          {listTask.map((item, index) => (
+          <input className="form-control" placeholder="Search..." value={search} onChange={(e) => handleChangeSearch(e)} />
+          {searchResults.map((item, index) => (
             <div key={index}>
               <div className="to-do-item">
                 <div className="to-do-item-header">
                   <div className="item-side-left">
-                    <input type="checkbox" checked={checked.includes(item.id)} className="form-check-input mr-2" id={item.id} onChange={(e) => handleCheck(Number(e.target.id))} />
+                    <div>
+                      <input type="checkbox" checked={checked.includes(item.id)} className="form-check-input mr-2" id={item.id} onChange={(e) => handleCheck(Number(e.target.id))} />
+                    </div>
                     <span className="form-check-label">{item.title}</span>
                   </div>
                   <div className="item-side-right">
-                    <button className="btn btn-primary btn-action mx-2" onClick={() => showDetail(item.id)}>
+                    <button className="btn btn-primary btn-action mx-2" disabled={!item.title} onClick={() => showDetail(item.id)}>
                       Detail
                     </button>
-                    <button className="btn btn-danger btn-action" onClick={() => removeTask(item.id)}>
+                    <button
+                      className="btn btn-danger btn-action"
+                      onClick={() => {
+                        removeTask(item.id);
+                        removeChecked(item.id);
+                      }}
+                    >
                       Remove
                     </button>
                   </div>
@@ -47,7 +70,7 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
               </div>
               {item.show && (
                 <div className="detail-to-do m-0">
-                  <AddTodo task={item} handleUpdate={handleUpdateInput} form="update" />
+                  <AddTodo task={item} handleUpdateItem={handleUpdateInput} form="update" />
                 </div>
               )}
             </div>

@@ -30,6 +30,16 @@ function DashboardTodo() {
     }));
   };
 
+  const handleUpdateItem = (value, fieldName, item) => {
+    let newListTask = [...listTask];
+    newListTask.forEach((ele, index) => {
+      if (ele.id === item.id) {
+        listTask[index].title = value;
+      }
+    });
+    return setListTask(newListTask);
+  };
+
   const submitForm = () => {
     setListTask((item) => {
       const newTask = [...item, task];
@@ -58,14 +68,12 @@ function DashboardTodo() {
   };
 
   const submitDoneTask = (checked) => {
-    console.log(checked);
     let newListTask = [];
     listTask.forEach((item, index) => {
       if (checked.includes(item.id) === false) {
         newListTask.push(item);
       }
     });
-    console.log("new", newListTask);
     localStorage.setItem("task", JSON.stringify(newListTask));
     return setListTask(newListTask);
   };
@@ -78,7 +86,7 @@ function DashboardTodo() {
           <AddTodo task={task} handleUpdate={handleUpdate} submitForm={submitForm} form="add" />
         </div>
       </div>
-      <ToDoList listTask={listTask} handleUpdateInput={handleUpdate} removeTask={removeTask} submitDoneTask={(value) => submitDoneTask(value)} showDetail={(value) => showDetail(value)} />
+      <ToDoList listTask={listTask} handleUpdateInput={handleUpdateItem} removeTask={removeTask} submitDoneTask={(value) => submitDoneTask(value)} showDetail={(value) => showDetail(value)} />
     </div>
   );
 }
