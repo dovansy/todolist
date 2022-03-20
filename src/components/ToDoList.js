@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import "../styles/Todolist.css";
 import AddTodo from "./AddTodo";
 
-function ToDoList() {
-  const [showDetail, setShowDetail] = useState(false);
-  const [listCheck, setListCheck] = useState([]);
-  const checkedTodo = (item) => {
-    setListCheck([...listCheck, item]);
-    console.log(listCheck);
+function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, showDetail }) {
+  const [checked, setChecked] = useState([]);
+
+  const handleCheck = (id) => {
+    setChecked((item) => {
+      const isChecked = checked.includes(id);
+      if (isChecked) {
+        return checked.filter((ele) => ele !== id);
+      } else {
+        return [...item, id];
+      }
+    });
   };
+
+  const unChecked = () => {
+    setChecked([]);
+  };
+
   return (
     <div className="todo-list">
       <div>
@@ -16,38 +27,50 @@ function ToDoList() {
         <div className="add-todo-content my-3">
           <span>Search</span>
           <input className="form-control" placeholder="Search..." />
-          <div>
-            <div className="to-do-item">
-              <div className="to-do-item-header">
-                <div className="item-side-left">
-                  <input type="checkbox" className="form-check-input mr-2" id="1" onChange={(e) => checkedTodo(e.target.id)} />
-                  <span className="form-check-label">Do homework</span>
-                </div>
-                <div className="item-side-right">
-                  <button className="btn btn-primary btn-action mx-2" onClick={() => setShowDetail(!showDetail)}>
-                    Detail
-                  </button>
-                  <button className="btn btn-danger btn-action">Remove</button>
+          {listTask.map((item, index) => (
+            <div key={index}>
+              <div className="to-do-item">
+                <div className="to-do-item-header">
+                  <div className="item-side-left">
+                    <input type="checkbox" checked={checked.includes(item.id)} className="form-check-input mr-2" id={item.id} onChange={(e) => handleCheck(Number(e.target.id))} />
+                    <span className="form-check-label">{item.title}</span>
+                  </div>
+                  <div className="item-side-right">
+                    <button className="btn btn-primary btn-action mx-2" onClick={() => showDetail(item.id)}>
+                      Detail
+                    </button>
+                    <button className="btn btn-danger btn-action" onClick={() => removeTask(item.id)}>
+                      Remove
+                    </button>
+                  </div>
                 </div>
               </div>
+              {item.show && (
+                <div className="detail-to-do m-0">
+                  <AddTodo task={item} handleUpdate={handleUpdateInput} form="update" />
+                </div>
+              )}
             </div>
-            {showDetail && (
-              <div className="detail-to-do m-0">
-                <AddTodo />
-              </div>
-            )}
-          </div>
+          ))}
         </div>
-        {listCheck.length !== 0 && (
+        {checked.length !== 0 && (
           <div className="bulk-action px-2">
             <div className="item-side-left">
               <span className="form-check-label">Bulk action:</span>
             </div>
             <div className="item-side-right">
-              <button className="btn btn-primary btn-action mx-2" onClick={() => console.log(listCheck)}>
+              <button
+                className="btn btn-primary btn-action mx-2"
+                onClick={() => {
+                  submitDoneTask(checked);
+                  setChecked([]);
+                }}
+              >
                 Done
               </button>
-              <button className="btn btn-danger btn-action">Remove</button>
+              <button className="btn btn-secondary btn-action" onClick={unChecked}>
+                Cancel
+              </button>
             </div>
           </div>
         )}
@@ -56,4 +79,4 @@ function ToDoList() {
   );
 }
 
-export default ToDoList;
+export default memo(ToDoList);
