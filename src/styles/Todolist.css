@@ -1,7 +1,5 @@
 .content {
-  width: 70%;
   margin: auto;
-  display: flex;
   border-radius: 1em;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
@@ -14,20 +12,13 @@
 }
 
 /* add todo */
-
 .add-todo {
-  width: 40%;
   border-right: 1px solid #cdcdcd;
 }
 
 .add-todo-content {
   width: 90%;
   margin: auto;
-}
-
-/* todo list */
-.todo-list {
-  width: 60%;
 }
 
 /* btn add */
@@ -45,9 +36,19 @@
 
 .btn-action {
   width: 100px;
+  margin: 0 5px;
 }
 
 .item-side-left {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label {
+  word-break: break-all;
+}
+
+.item-side-right {
   display: flex;
   align-items: center;
 }
@@ -61,28 +62,22 @@
 
 .form-check-input {
   margin-right: 10px;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 }
 
 .detail-to-do {
   border: 1px solid #cdcdcd;
+  margin: 0;
+  padding: 5px 0 10px;
 }
 
 .bulk-action {
   display: flex;
   align-items: center;
+  padding: 0 15px;
   justify-content: space-between;
   border-top: 1px solid #cdcdcd;
   animation: showIn 1s ease-in-out;
-}
-
-.form-check-label {
-  word-break: break-all;
-}
-
-.item-side-right {
-  display: flex;
-  align-items: center;
 }
 
 @keyframes showIn {

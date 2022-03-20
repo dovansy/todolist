@@ -1,5 +1,6 @@
 import { memo, useEffect, useState } from "react";
-import "../styles/Todolist.css";
+import "../styles/TodoList.css";
+import "../styles/Main.css";
 import AddTodo from "./AddTodo";
 
 function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, showDetail, updateItem }) {
@@ -42,7 +43,7 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
     <div className="todo-list">
       <div>
         <span className="todo-list-header">To Do List</span>
-        <div className="add-todo-content my-3">
+        <div className="add-todo-content">
           <span>Search</span>
           <input className="form-control" placeholder="Search..." value={search} onChange={(e) => handleChangeSearch(e)} />
           {searchResults.map((item, index) => (
@@ -51,12 +52,12 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
                 <div className="to-do-item-header">
                   <div className="item-side-left">
                     <div>
-                      <input type="checkbox" checked={checked.includes(item.id)} className="form-check-input mr-2" id={item.id} onChange={(e) => handleCheck(Number(e.target.id))} />
+                      <input type="checkbox" checked={checked.includes(item.id)} className="form-check-input" id={item.id} onChange={(e) => handleCheck(Number(e.target.id))} />
                     </div>
                     <span className="form-check-label">{item.title}</span>
                   </div>
                   <div className="item-side-right">
-                    <button className="btn btn-primary btn-action mx-2" disabled={!item.title} onClick={() => showDetail(item.id)}>
+                    <button className="btn btn-primary btn-action" disabled={!item.title} onClick={() => showDetail(item.id)}>
                       Detail
                     </button>
                     <button
@@ -72,7 +73,7 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
                 </div>
               </div>
               {item.show && (
-                <div className="detail-to-do m-0">
+                <div className="detail-to-do">
                   <AddTodo task={item} handleUpdateItem={handleUpdateInput} form="update" index={index} updateItem={updateItem} />
                 </div>
               )}
@@ -80,13 +81,13 @@ function ToDoList({ listTask, handleUpdateInput, removeTask, submitDoneTask, sho
           ))}
         </div>
         {checked.length !== 0 && (
-          <div className="bulk-action px-2">
+          <div className="bulk-action">
             <div className="item-side-left">
               <span className="form-check-label">Bulk action:</span>
             </div>
             <div className="item-side-right">
               <button
-                className="btn btn-primary btn-action mx-2"
+                className="btn btn-primary btn-action"
                 onClick={() => {
                   submitDoneTask(checked);
                   setChecked([]);

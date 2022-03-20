@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "../styles/Todolist.css";
+import "../styles/TodoList.css";
+import "../styles/Main.css";
 import AddTodo from "./AddTodo";
 import ToDoList from "./ToDoList";
 
@@ -85,14 +86,18 @@ function DashboardTodo() {
   };
 
   return (
-    <div className="content">
-      <div className="add-todo">
-        <div>
-          <span className="todo-list-header">New task</span>
-          <AddTodo task={task} handleUpdate={handleUpdate} submitForm={submitForm} form="add" />
+    <div className="content grid wide">
+      <div className="row">
+        <div className="add-todo col l-5 c-12">
+          <div>
+            <span className="todo-list-header">New task</span>
+            <AddTodo task={task} handleUpdate={handleUpdate} submitForm={submitForm} form="add" />
+          </div>
+        </div>
+        <div className="col l-7 c-12">
+          <ToDoList listTask={listTask} handleUpdateInput={handleUpdateItem} removeTask={removeTask} submitDoneTask={(value) => submitDoneTask(value)} updateItem={updateItem} showDetail={(value) => showDetail(value)} />
         </div>
       </div>
-      <ToDoList listTask={listTask} handleUpdateInput={handleUpdateItem} removeTask={removeTask} submitDoneTask={(value) => submitDoneTask(value)} updateItem={updateItem} showDetail={(value) => showDetail(value)} />
     </div>
   );
 }
