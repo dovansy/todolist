@@ -1,5 +1,5 @@
 import { memo } from "react";
-import "../styles/TodoList.css";
+import "../styles/Todolist.css";
 import "../styles/Main.css";
 
 function AddTodo({ task, handleUpdate, handleUpdateItem, submitForm, updateItem, form, index }) {
